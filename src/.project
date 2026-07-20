@@ -14,11 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>project_assets/images/cards/knossos1.jpg</name>
-			<type>1</type>
-			<locationURI>PARENT-5-PROJECT_LOC/project_assets%20(1)/project_assets/images/cards/knossos1.jpg</locationURI>
-		</link>
-	</linkedResources>
 </projectDescription>
