@@ -105,6 +105,27 @@ public class ControllerFlowTest {
 	}
 
 	@Test
+	public void stunnedTheseusUnfreezesOnlyAfterHisOwnersFullTurnIsOver() {
+		player attacker = ctrl.getCurrentPlayer();
+		player defender = attacker == ctrl.getPlayer1() ? ctrl.getPlayer2() : ctrl.getPlayer1();
+
+		thiseas theseus = defender.getTheseus();
+		theseus.setPath(0);
+		theseus.setPosition(4);
+
+		attacker.getHand().set(0, new minotayros(-1, "dummy.jpg", "knossos"));
+		ctrl.onCardPlay(attacker, 0); // turn passes to the defender
+
+		assertTrue(theseus.isStunned());
+		assertEquals(defender, ctrl.getCurrentPlayer());
+
+		defender.getHand().set(0, new numbercard(2, "dummy.jpg", "malia")); // any unrelated move
+		ctrl.onCardPlay(defender, 0); // defender's whole turn plays out and ends
+
+		assertTrue(!theseus.isStunned());
+	}
+
+	@Test
 	public void minotaurCannotTargetAPawnPastTheCheckpoint() {
 		player attacker = ctrl.getCurrentPlayer();
 		player defender = attacker == ctrl.getPlayer1() ? ctrl.getPlayer2() : ctrl.getPlayer1();

@@ -287,6 +287,9 @@ public class controller {
 		if (!fp.isAvailable()) {
 			return;
 		}
+		if (fp.getFinding() instanceof Fresco && p.hasPhotographed((Fresco) fp.getFinding())) {
+			return; // already photographed by this player (e.g. pushed back by a Minotaur attack and passing over it again) - can't do it twice
+		}
 
 		if (mover instanceof thiseas) {
 			thiseas th = (thiseas) mover;
@@ -367,9 +370,6 @@ public class controller {
 		if (drawn != null) {
 			currentPlayer.addCardToHand(drawn);
 		}
-		if (currentPlayer.getTheseus().isStunned()) {
-			currentPlayer.getTheseus().setStunned(false);
-		}
 		if (isEndOfGame()) {
 			finishGame();
 			return;
@@ -378,6 +378,11 @@ public class controller {
 	}
 
 	private void switchTurn() {
+		// Theseus was only stunned for exactly one turn of his owner - that turn
+		// is now over (whether it ended normally or via timeout), so he's free again.
+		if (currentPlayer.getTheseus().isStunned()) {
+			currentPlayer.getTheseus().setStunned(false);
+		}
 		currentPlayer = getOpponent(currentPlayer);
 		startTurn();
 	}
